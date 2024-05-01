@@ -1,21 +1,27 @@
 #!env/bin/python
-import argparse
-import constants as c
-import algorithms
+import argparse  # library for handling arguments in terminal
+import constants as c  # constants that describe the program options
+import algorithms  # logic is stored here
 
+# creates a new parser
 parser = argparse.ArgumentParser(prog=c.name, description=c.description, epilog=c.epilog)
+# setting all the options. see https://docs.python.org/3/library/argparse.html#argparse.ArgumentParser.add_argument
 parser.add_argument('type', choices=['cipher', 'decipher'], help=c.help['type'])
 parser.add_argument('-p', '--password', required=True, help=c.help['password'])
 parser.add_argument('--salt', required=True, help=c.help['salt'])
 parser.add_argument('--size', required=True,
-                    choices=[128, 192, 256], type=int, default=128, help=c.help['size'])
+                    choices=[128, 192, 256], type=int,
+                    default=128, help=c.help['size'])
 parser.add_argument('-i', '--input', required=True, help=c.help['input'])
 parser.add_argument('-o', '--output', required=True, help=c.help['output'])
 
+# reads the arguments
 args = vars(parser.parse_args())
 
+# generates a secure password based on the password plain text and the salt
 key = algorithms.generateKey(args['password'], args['salt'], args['size'])
 
+# runs cipher or decipher algorithm depending on the "type" option
 if args['type'] == 'cipher':
   algorithms.cipher(args, key)
 if args['type'] == 'decipher':

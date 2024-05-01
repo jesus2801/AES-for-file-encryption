@@ -1,3 +1,4 @@
+# Here are the constants that appears on the help option of the executable
 name = "AES for files encryption"
 description = "This program encrypts files with AES"
 epilog = "For more information, look at README.md"
